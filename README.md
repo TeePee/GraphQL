@@ -1,7 +1,7 @@
 # GraphQL
 
 **Vulnérabilités courantes et comment les exploiter**
-[Site Original](#https://the-bilal-rizwan.medium.com/graphql-common-vulnerabilities-how-to-exploit-them-464f9fdce696)
+[Site Original](https://the-bilal-rizwan.medium.com/graphql-common-vulnerabilities-how-to-exploit-them-464f9fdce696)
 
 De quoi parle ce post?
 Beaucoup d'entre vous ont peut-être vu GraphQL utilisé dans de nombreuses applications Web, 
