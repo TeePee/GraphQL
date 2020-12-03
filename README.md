@@ -11,6 +11,6 @@ Dans cet article, je vais essayer de mettre en évidence les erreurs de configur
 dans l'utilisation de GraphQL et comment elles peuvent être exploitées.
 
 Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
-
+[image1.png](https://raw.githubusercontent.com/TeePee/GraphQL/main/Image1.png)
 
 
