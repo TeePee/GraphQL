@@ -31,13 +31,55 @@ Deuxièmement, il y a probablement un point de terminaison `/users/<id>/posts` q
 Le troisième point de terminaison sera alors le `/users/<id>/followers` qui renvoie une liste de followers par utilisateur.
 ![image2.png](https://user-images.githubusercontent.com/38256925/101089348-579a1300-35b5-11eb-92a7-cf4fc1ee6736.png)
 
-
+Dans GraphQL cependant, il n'y a qu'un seul point de terminaison où nous envoyons une requête qui inclut des exigences de données concrètes, 
+le serveur répond ensuite avec les exigences de données.
+Supposons que nous voulions récupérer l'ID utilisateur du système, nous pouvons lui faire une requête comme ceci:
 ![image3.png](https://user-images.githubusercontent.com/38256925/101090125-751bac80-35b6-11eb-97d3-c2a7f76913b0.png)
 
+Maintenant, que faire si nous voulons également les e-mails des utilisateurs? 
+et contrairement à l'API REST, nous pouvons simplement spécifier que dans une nouvelle ligne, 
+sur le même point de terminaison dans la demande est envoyée au serveur et c'est aussi simple que cela
 ![image4.png](https://user-images.githubusercontent.com/38256925/101090128-777e0680-35b6-11eb-9020-613adc1a541f.png)
 
-
+Et si nous voulions aussi les noms? Je suis sûr que vous êtes maintenant en mesure de le comprendre.
 ![image5.png](https://user-images.githubusercontent.com/38256925/101090132-78af3380-35b6-11eb-9df9-b99c500d5c0b.png)
+
+Et c'est l'embellissement de Graphql, vous pouvez simplement spécifier ce que vous voulez de manière granulaire.
+Maintenant que vous savez ce qu'est GraphQL, passons à autre chose.
+
+# Erreurs de configuration courantes dans GraphQL
+
+Ce qu'il faut comprendre ici, c'est que GraphQL, comme toute autre API REST, 
+est vulnérable à de nombreuses attaques auxquelles les mêmes attaques que l'API REST pourrait être sujette. 
+Je vais en énumérer quelques-une ci-dessous, 
+mais la chose la plus intéressante et la raison pour laquelle tout ce message est rédigé est le tristement célèbre bogue de requête Introspection.
+
+   **Requête d'introspection:** 
+`En termes simples, il s'agit d'un moyen d'interroger le serveur pour son schéma d'arrière-plan GraphQL 
+et d'obtenir une documentation complète et une liste des appels d'API disponibles dans le back-end.
+Ceci est à l'origine destiné à être utilisé en interne.`
+
+La requête d'introspection ne doit être autorisée qu'en interne et ne doit pas être autorisée au grand public. 
+Si nous pouvons récupérer toute la documentation de l'API back-end et les appels disponibles sur un serveur, 
+cela peut être très dangereux dans de nombreux cas, 
+et si nous pouvions mettre la main sur certains appels d'API destinés uniquement à être utilisés en interne, 
+peut-être que nous trouvons un appel pour activer le débogage ou peut-être un appel d'API pour supprimer des utilisateurs, 
+il y a tellement de dégâts qui peuvent être causés si tout le back-end peut être récupéré.
+
+Voyons comment cela se fait.
+
+    Pour tester un serveur pour une mauvaise configuration d'introspection GraphQL:
+    1) Intercepter la requête HTTP envoyée au serveur
+    2) Remplacez son contenu/requête par une requête d'introspection générique pour récupérer l'intégralité du schéma de backend
+    3) Visualisez le schéma pour collecter des appels API juteux.
+    4) Créez tout appel GraphQL potentiel que vous pourriez trouver intéressant et piratez!
+    
+Supposons que votre application Web cible effectue un appel GraphQL, 
+vous pouvez simplement modifier sa requête avec une requête GraphQL Introspection comme suit.
+
+
+
+
 
 
 ![image6.png](https://user-images.githubusercontent.com/38256925/101090137-7a78f700-35b6-11eb-8ecf-57756d4da842.png)
