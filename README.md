@@ -11,7 +11,7 @@ Dans cet article, je vais essayer de mettre en évidence les erreurs de configur
 dans l'utilisation de GraphQL et comment elles peuvent être exploitées.
 
 Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
-![image1.png](https://raw.githubusercontent.com/TeePee/GraphQL/main/Image1.png)
+![image1.png](https://user-images.githubusercontent.com/38256925/101089345-5537b900-35b5-11eb-99db-b54152d1028a.png)
 
 Il comporte des caractères **accolades** et **\n**. Si vous voyez quelque chose comme ça, c'est probablement GraphQL.
 Commençons par comprendre ce que GraphQL est réellement en sachant que cela aidera à mieux former des exploits.
@@ -29,7 +29,7 @@ L'exemple suivant devrait effacer la différence entre GraphQL et l'API REST.
 Dans l'API REST, nous utilisons généralement `/users/<id>` endpoint pour récupérer les données utilisateur. 
 Deuxièmement, il y a probablement un point de terminaison `/users/<id>/posts` qui renvoie toutes les publications d'un utilisateur. 
 Le troisième point de terminaison sera alors le `/users/<id>/followers` qui renvoie une liste de followers par utilisateur.
-
+![image2.png](https://user-images.githubusercontent.com/38256925/101089348-579a1300-35b5-11eb-92a7-cf4fc1ee6736.png)
 
 
 
