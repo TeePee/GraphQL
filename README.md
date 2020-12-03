@@ -11,6 +11,7 @@ Dans cet article, je vais essayer de mettre en évidence les erreurs de configur
 dans l'utilisation de GraphQL et comment elles peuvent être exploitées.
 
 Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
+
 ![image1.png](https://user-images.githubusercontent.com/38256925/101089345-5537b900-35b5-11eb-99db-b54152d1028a.png)
 
 Il comporte des caractères **accolades** et **\n**. Si vous voyez quelque chose comme ça, c'est probablement GraphQL.
@@ -29,19 +30,23 @@ L'exemple suivant devrait effacer la différence entre GraphQL et l'API REST.
 Dans l'API REST, nous utilisons généralement `/users/<id>` endpoint pour récupérer les données utilisateur. 
 Deuxièmement, il y a probablement un point de terminaison `/users/<id>/posts` qui renvoie toutes les publications d'un utilisateur. 
 Le troisième point de terminaison sera alors le `/users/<id>/followers` qui renvoie une liste de followers par utilisateur.
+
 ![image2.png](https://user-images.githubusercontent.com/38256925/101089348-579a1300-35b5-11eb-92a7-cf4fc1ee6736.png)
 
 Dans GraphQL cependant, il n'y a qu'un seul point de terminaison où nous envoyons une requête qui inclut des exigences de données concrètes, 
 le serveur répond ensuite avec les exigences de données.
 Supposons que nous voulions récupérer l'ID utilisateur du système, nous pouvons lui faire une requête comme ceci:
+
 ![image3.png](https://user-images.githubusercontent.com/38256925/101090125-751bac80-35b6-11eb-97d3-c2a7f76913b0.png)
 
 Maintenant, que faire si nous voulons également les e-mails des utilisateurs? 
 et contrairement à l'API REST, nous pouvons simplement spécifier que dans une nouvelle ligne, 
-sur le même point de terminaison dans la demande est envoyée au serveur et c'est aussi simple que cela
+sur le même point de terminaison dans la demande est envoyée au serveur et c'est aussi simple que cela:
+
 ![image4.png](https://user-images.githubusercontent.com/38256925/101090128-777e0680-35b6-11eb-9020-613adc1a541f.png)
 
 Et si nous voulions aussi les noms? Je suis sûr que vous êtes maintenant en mesure de le comprendre.
+
 ![image5.png](https://user-images.githubusercontent.com/38256925/101090132-78af3380-35b6-11eb-9df9-b99c500d5c0b.png)
 
 Et c'est l'embellissement de Graphql, vous pouvez simplement spécifier ce que vous voulez de manière granulaire.
