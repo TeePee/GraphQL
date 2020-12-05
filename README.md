@@ -210,21 +210,50 @@ l'email, le nom mais attendez une minute… quel est cet uPassword.
 SENSATIONNEL!! nous venons de récupérer les mots de passe du back-end. 
 Pourquoi avons-nous pu faire cela? car dans le backend, il y avait un champ de mots de passe et nous pourrions l'utiliser dans l'appel graphql, 
 cela n'était possible que par l'introspection.
+__________________
 
+Il y a maintenant un petit problème avec la visualisation graphQL en ligne. 
+Il ne montre pas de mutations, avez-vous repéré cela? eh bien vous avez un œil vif. 
+Pour ma part, je n'ai pas repéré aussi vite qu'il m'a fallu beaucoup de temps pour le savoir et je me demande combien de bugs j'ai laissé passer. 
+Triste rien qui puisse être fait à ce sujet
+
+La question est maintenant de savoir comment lister l'ensemble du schéma complet? avec les mutations? 
+Eh bien, j'ai fait quelques recherches sur Google et j'ai trouvé ceci
+Téléchargez le terrain de jeu graphQL [ici](https://github.com/graphql/graphql-playground/releases)
 
 ![image18.png](https://user-images.githubusercontent.com/38256925/101090215-94b2d500-35b6-11eb-93de-3aea167a885e.png)
 
+Maintenant, voici ce qu'il y a de bien avec le graphql Playground: 
+`il utilise en fait la requête d'introspection et en fait une documentation pour vous.`
+
+Tout ce que vous avez à faire est de télécharger simplement l'application, 
+coller dans l'URL du point de terminaison graphql avec tous les cookies que vous avez et le tour est joué!
 
 ![image19.png](https://user-images.githubusercontent.com/38256925/101090219-97152f00-35b6-11eb-8526-7b81e91a1fc1.png)
 
+Normalement, vous ne pouvez pas afficher tout le schéma ici avec les mutations et ses paramètres
 
 ![image20.png](https://user-images.githubusercontent.com/38256925/101090224-98465c00-35b6-11eb-8556-9416a20c2570.png)
 
+mais j'aimerais aussi visualiser ceci ou au moins nous devrions savoir comment faire, 
+donc ce que vous allez faire maintenant est de cliquer sur l'onglet Docs et de télécharger le schéma au format SDL:
 
 ![image21.png](https://user-images.githubusercontent.com/38256925/101090225-9a101f80-35b6-11eb-8358-fb828ffbcf95.png)
 
+Une fois que vous avez le schéma, rendez-vous sur https://app.graphqleditor.com/
+Connectez-vous et vous aurez la possibilité de coller le fichier SDL que vous avez téléchargé
+après cela, le schéma sera visualisé pour vous avec les appels de mutation.
 
 ![image22.png](https://user-images.githubusercontent.com/38256925/101090232-9b414c80-35b6-11eb-8449-ba0ae58f17e7.png)
+
+Maintenant, regardez, c'est beau n'est-ce pas?
+
+Bien en regardant la partie de mutation, nous voyons une autre fonction non disponible sur le front-end, 
+la fonction DeleteUser et cela montre même qu'elle prend un seul argument d'ID, essayons-la.
+
+Permet de supprimer l'utilisateur 1.
+
+                  Passer l'argument comme ça en utilisant la visualisation:
 
 
 ![image23.png](https://user-images.githubusercontent.com/38256925/101090236-9d0b1000-35b6-11eb-9225-425f2f805feb.png)
@@ -232,14 +261,42 @@ cela n'était possible que par l'introspection.
 
 ![image24.png](https://user-images.githubusercontent.com/38256925/101090240-9e3c3d00-35b6-11eb-8cd2-7c9b701e110c.png)
 
+C'est simple, n'est-ce pas? Sinon, essayez de lire à nouveau la partie de mutation donnée ci-dessus et je suis sûr que vous l'obtiendrez. 
+Après avoir exécuté la requête delUser, permet de lister à nouveau les utilisateurs.
 
 ![image25.png](https://user-images.githubusercontent.com/38256925/101090244-a09e9700-35b6-11eb-85d2-daec7de2e288.png)
 
 
 ![image26.png](https://user-images.githubusercontent.com/38256925/101090249-a1cfc400-35b6-11eb-8896-d63f79e4e5b9.png)
 
+Et comme nous pouvons le voir, l'utilisateur 1 a été supprimé.
+Ceci est juste un exemple simple des choses qui peuvent être trouvées en utilisant Introspection
+Autres bogues dans Graphql:
+
+Eh bien, comme toute autre API REST, GraphQL est vulnérable à tous les bogues d'API, par exemple
+1) IDOR
+Partout où vous voyez des ID, vous savez quoi faire, ce bogue n’est pas lié à GraphQL mais est un bogue d’autorisation
+2) Bruteforce
+Vous voyez un OTP? ou contrôle du code MFA pour la limite de débit
+3) injection SQL
+Oui, vous l'avez bien lu, GraphQL ne signifie pas que l'application n'a pas les bogues de base, alors vérifiez-le toujours. 
+Mais j'ai remarqué que de nombreuses API GraphQL sont désormais connectées à MongoDB, 
+vous devez donc vous familiariser avec l'injection NO SQL. (oui c'est une chose)
+4) CSRF
+5) Requêtes Graphql imbriquées pour DOS (https://voidsec.com/graphql-security-overview-and-testing-tips/)
+
+et tout autre bogue d'API que vous pouvez imaginer existe dans GraphQL.
+
+En utilisant ces connaissances, 
+j'ai pu afficher les informations personnelles des utilisateurs dans une application Web, 
+que seuls les administrateurs étaient autorisés à afficher et j'ai obtenu une petite prime avec seulement quelques centaines de dollars.
 
 ![image27.png](https://user-images.githubusercontent.com/38256925/101090253-a300f100-35b6-11eb-83d0-8c1fabea5d30.png)
+
+Eh bien, c'est à peu près tout, s'il y a quelque chose que j'ai manqué ou mal tapé, n'hésitez pas à me contacter
+
+https://twitter.com/bilal__rizwan
+
 
 
 ![image28.png]()
