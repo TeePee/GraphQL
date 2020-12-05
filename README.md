@@ -10,7 +10,7 @@ certains n'ont peut-être pas réalisé que la requête s'appelle Requête Graph
 Dans cet article, je vais essayer de mettre en évidence les erreurs de configuration courantes, 
 dans l'utilisation de GraphQL et comment elles peuvent être exploitées.
 
-Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
+                        Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
 
 ![image1.png](https://user-images.githubusercontent.com/38256925/101089345-5537b900-35b5-11eb-99db-b54152d1028a.png)
 
@@ -90,10 +90,25 @@ vous pouvez simplement modifier sa requête avec une requête GraphQL Introspect
 
 ![image7.png](https://user-images.githubusercontent.com/38256925/101090144-7cdb5100-35b6-11eb-8729-53254ede100a.png)
 
-Remplacez simplement le contenu du POST par la requête suivante:
+                                            Remplacez simplement le contenu du POST par la requête suivante:
 
 ```
-{"query":"\n    query IntrospectionQuery {\r\n      __schema {\r\n        queryType { name }\r\n        mutationType { name }\r\n        subscriptionType { name }\r\n        types {\r\n          ...FullType\r\n        }\r\n        directives {\r\n          name\r\n          description\r\n          locations\r\n          args {\r\n            ...InputValue\r\n          }\r\n        }\r\n      }\r\n    }\r\n\r\n    fragment FullType on __Type {\r\n      kind\r\n      name\r\n      description\r\n      fields(includeDeprecated: true) {\r\n        name\r\n        description\r\n        args {\r\n          ...InputValue\r\n        }\r\n        type {\r\n          ...TypeRef\r\n        }\r\n        isDeprecated\r\n        deprecationReason\r\n      }\r\n      inputFields {\r\n        ...InputValue\r\n      }\r\n      interfaces {\r\n        ...TypeRef\r\n      }\r\n      enumValues(includeDeprecated: true) {\r\n        name\r\n        description\r\n        isDeprecated\r\n        deprecationReason\r\n      }\r\n      possibleTypes {\r\n        ...TypeRef\r\n      }\r\n    }\r\n\r\n    fragment InputValue on __InputValue {\r\n      name\r\n      description\r\n      type { ...TypeRef }\r\n      defaultValue\r\n    }\r\n\r\n    fragment TypeRef on __Type {\r\n      kind\r\n      name\r\n      ofType {\r\n        kind\r\n        name\r\n        ofType {\r\n          kind\r\n          name\r\n          ofType {\r\n            kind\r\n            name\r\n            ofType {\r\n              kind\r\n              name\r\n              ofType {\r\n                kind\r\n                name\r\n                ofType {\r\n                  kind\r\n                  name\r\n                  ofType {\r\n                    kind\r\n                    name\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  ","variables":null}
+{"query":"\n    query IntrospectionQuery {\r\n      __schema {\r\n        queryType { name }\r\n        mutationType { name }\r\n        
+subscriptionType { name }\r\n        types {\r\n          ...FullType\r\n        }\r\n        directives {\r\n          name\r\n          
+description\r\n          locations\r\n          args {\r\n            ...InputValue\r\n          }\r\n        }\r\n      }\r\n    
+}\r\n\r\n    fragment FullType on __Type {\r\n      kind\r\n      name\r\n      description\r\n      
+fields(includeDeprecated: true) {\r\n        name\r\n        description\r\n        args {\r\n          ...InputValue\r\n        
+}\r\n        type {\r\n          ...TypeRef\r\n        }\r\n        isDeprecated\r\n        deprecationReason\r\n      }\r\n      
+inputFields {\r\n        ...InputValue\r\n      }\r\n      interfaces {\r\n        ...TypeRef\r\n      }\r\n      
+enumValues(includeDeprecated: true) {\r\n        name\r\n        description\r\n        isDeprecated\r\n        
+deprecationReason\r\n      }\r\n      possibleTypes {\r\n        ...TypeRef\r\n      }\r\n    }\r\n\r\n    
+fragment InputValue on __InputValue {\r\n      name\r\n      description\r\n      type { ...TypeRef }\r\n      defaultValue\r\n    
+}\r\n\r\n    fragment TypeRef on __Type {\r\n      kind\r\n      name\r\n      ofType {\r\n        kind\r\n        name\r\n        
+ofType {\r\n          kind\r\n          name\r\n          ofType {\r\n            kind\r\n            name\r\n            
+ofType {\r\n              kind\r\n              name\r\n              ofType {\r\n                kind\r\n                name\r\n                
+ofType {\r\n                  kind\r\n                  name\r\n                  ofType {\r\n                    kind\r\n                    
+name\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    
+}\r\n  ","variables":null}
 ```
 
 Maintenant, quand vous faites cela, la réponse peut être assez grande et difficile à comprendre. 
@@ -111,7 +126,7 @@ vous verrez une visualisation de l'ensemble des appels de back-end et d'API disp
 Maintenant que nous avons la liste complète des appels d'API, 
 nous pouvons la parcourir et essayer facilement de déterminer s'il existe des appels d'API sensibles qui peuvent être abusés. 
 C'est le type de bogue le plus répandu dans les back-ends GraphQL qui peut conduire à des scénarios assez critiques.
-                                        ____________________________________
+                                       
                                         
 J'ai un peu l'impression que jusqu'à présent, vous n'avez peut-être pas complètement synchronisé le véritable impact de ce bogue, 
 alors prenons un exemple.Pour ceux d'entre vous qui savent déjà comment regarder un schéma graphql et créer des requêtes graphQL, 
