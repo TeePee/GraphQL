@@ -176,11 +176,21 @@ query{
   }
 }
 ```
+Aussi simple que cela. Voilà comment fonctionne Query. C'est la première fonction du site Web
+L'application nous permet également d'ajouter des utilisateurs, 
 
+                                                  essayez cela.
 ![image13.png](https://user-images.githubusercontent.com/38256925/101090194-8c5a9a00-35b6-11eb-9b32-cd9570c8f2bc.png)
 
 
 ![image14.png](https://user-images.githubusercontent.com/38256925/101090198-8e245d80-35b6-11eb-959b-112e25778d22.png)
+
+Maintenant que nous sommes en mesure de visualiser ces appels via burp et de les générer en cliquant sur un bouton sur le front-end, 
+comment trouver quelque chose de plus juteux?
+
+Essayons bien la requête d'introspection.
+
+À l'aide de la requête Introspection, copiez les données de réponse et collez-les dans voyager
 
 
 ![image15.png](https://user-images.githubusercontent.com/38256925/101090200-8f558a80-35b6-11eb-8de4-f788f372aebb.png)
@@ -188,8 +198,18 @@ query{
 
 ![image16.png](https://user-images.githubusercontent.com/38256925/101090207-91b7e480-35b6-11eb-88ce-612df2dd7f6c.png)
 
+Comme il s'agit d'une application de test, le schéma est très petit mais regardez attentivement l'image, 
+c'est un exemple très fondamental et basique de la façon dont vous pouvez trouver des éléments sensibles à l'aide de l'introspection, 
+comme vous pouvez le voir sur l'image, la fonction des utilisateurs a de nombreux champs dont nous sommes déjà familier avec tel que l'identifiant, 
+l'email, le nom mais attendez une minute… quel est cet uPassword. 
+
+                                                       Essayons de le récupérer.
 
 ![image17.png](https://user-images.githubusercontent.com/38256925/101090211-92e91180-35b6-11eb-91ff-5e68aad75075.png)
+
+SENSATIONNEL!! nous venons de récupérer les mots de passe du back-end. 
+Pourquoi avons-nous pu faire cela? car dans le backend, il y avait un champ de mots de passe et nous pourrions l'utiliser dans l'appel graphql, 
+cela n'était possible que par l'introspection.
 
 
 ![image18.png](https://user-images.githubusercontent.com/38256925/101090215-94b2d500-35b6-11eb-93de-3aea167a885e.png)
