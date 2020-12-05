@@ -10,7 +10,7 @@ certains n'ont peut-être pas réalisé que la requête s'appelle Requête Graph
 Dans cet article, je vais essayer de mettre en évidence les erreurs de configuration courantes, 
 dans l'utilisation de GraphQL et comment elles peuvent être exploitées.
 
-                        Pour ceux qui ne savent pas ce qu'est GraphQL, sa demande ressemble à ceci.
+                        Pour ceux qui ne savent pas ce qu'est GraphQL, sa Request ressemble à ceci.
 
 ![image1.png](https://user-images.githubusercontent.com/38256925/101089345-5537b900-35b5-11eb-99db-b54152d1028a.png)
 
@@ -167,6 +167,15 @@ Maintenant, ce qui précède peut être vu d'une bien meilleure manière
 
 À partir des images, vous devriez être en mesure de comprendre facilement la structure de la requête graphQL
 
+```json
+query{
+  <FUNCTION NAME>
+  {
+     <COMPONENT>
+     <COMPONENT>
+  }
+}
+```
 
 ![image13.png](https://user-images.githubusercontent.com/38256925/101090194-8c5a9a00-35b6-11eb-9b32-cd9570c8f2bc.png)
 
