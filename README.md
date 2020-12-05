@@ -82,30 +82,75 @@ Voyons comment cela se fait.
 Supposons que votre application Web cible effectue un appel GraphQL, 
 vous pouvez simplement modifier sa requête avec une requête GraphQL Introspection comme suit.
 
-
-
-
-
+                                            Appel API d'origine
 
 ![image6.png](https://user-images.githubusercontent.com/38256925/101090137-7a78f700-35b6-11eb-8ecf-57756d4da842.png)
 
+                                            Requête d'introspection GraphQL Schéma back-end qui fuit
 
 ![image7.png](https://user-images.githubusercontent.com/38256925/101090144-7cdb5100-35b6-11eb-8729-53254ede100a.png)
 
+Remplacez simplement le contenu du POST par la requête suivante:
+
+```
+{"query":"\n    query IntrospectionQuery {\r\n      __schema {\r\n        queryType { name }\r\n        mutationType { name }\r\n        subscriptionType { name }\r\n        types {\r\n          ...FullType\r\n        }\r\n        directives {\r\n          name\r\n          description\r\n          locations\r\n          args {\r\n            ...InputValue\r\n          }\r\n        }\r\n      }\r\n    }\r\n\r\n    fragment FullType on __Type {\r\n      kind\r\n      name\r\n      description\r\n      fields(includeDeprecated: true) {\r\n        name\r\n        description\r\n        args {\r\n          ...InputValue\r\n        }\r\n        type {\r\n          ...TypeRef\r\n        }\r\n        isDeprecated\r\n        deprecationReason\r\n      }\r\n      inputFields {\r\n        ...InputValue\r\n      }\r\n      interfaces {\r\n        ...TypeRef\r\n      }\r\n      enumValues(includeDeprecated: true) {\r\n        name\r\n        description\r\n        isDeprecated\r\n        deprecationReason\r\n      }\r\n      possibleTypes {\r\n        ...TypeRef\r\n      }\r\n    }\r\n\r\n    fragment InputValue on __InputValue {\r\n      name\r\n      description\r\n      type { ...TypeRef }\r\n      defaultValue\r\n    }\r\n\r\n    fragment TypeRef on __Type {\r\n      kind\r\n      name\r\n      ofType {\r\n        kind\r\n        name\r\n        ofType {\r\n          kind\r\n          name\r\n          ofType {\r\n            kind\r\n            name\r\n            ofType {\r\n              kind\r\n              name\r\n              ofType {\r\n                kind\r\n                name\r\n                ofType {\r\n                  kind\r\n                  name\r\n                  ofType {\r\n                    kind\r\n                    name\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  ","variables":null}
+```
+
+Maintenant, quand vous faites cela, la réponse peut être assez grande et difficile à comprendre. 
+La meilleure façon de comprendre le schéma est de le visualiser. 
+Cela peut être fait en copiant tout le corps de la réponse et en utilisant ce site Web https://apis.guru/graphql-voyager/ 
+cliquez sur le bouton Changer de schéma et allez dans l'onglet introspection puis collez-y la requête d'introspection
 
 ![image8.png](https://user-images.githubusercontent.com/38256925/101090153-7ea51480-35b6-11eb-8890-09dfb5f247c1.png)
 
+après avoir collé le schéma, cliquez sur Afficher et le tour est joué, 
+vous verrez une visualisation de l'ensemble des appels de back-end et d'API disponibles
 
 ![image9.png](https://user-images.githubusercontent.com/38256925/101090159-806ed800-35b6-11eb-9a8c-f39a13c00925.png)
 
+Maintenant que nous avons la liste complète des appels d'API, 
+nous pouvons la parcourir et essayer facilement de déterminer s'il existe des appels d'API sensibles qui peuvent être abusés. 
+C'est le type de bogue le plus répandu dans les back-ends GraphQL qui peut conduire à des scénarios assez critiques.
+                                        ____________________________________
+                                        
+J'ai un peu l'impression que jusqu'à présent, vous n'avez peut-être pas complètement synchronisé le véritable impact de ce bogue, 
+alors prenons un exemple.Pour ceux d'entre vous qui savent déjà comment regarder un schéma graphql et créer des requêtes graphQL, 
+la lecture plus approfondie ne sera pas assez utile, mais pour les personnes qui ont visualisé le schéma, 
+il a repéré quelque chose de sensible et qui veut l'exploiter ou qui veut simplement comprendre le véritable impact de l'introspection, 
+puis continuez à lire.
+
+Apprentissage de la formation des requêtes GraphQL:
+    GraphQL a 3 types de base de requêtes ou de composants
+
+    Queries/Requêtes
+    Semblable à la requête GET dans l'API REST, les requêtes sont utilisées pour récupérer des données.
+
+    Mutation
+    Utilisé pour créer, modifier et supprimer des données.
+
+    Subscriptions/Abonnements
+    Utilisé pour la communication en temps réel. Nous ne nous concentrerons pas là-dessus.
+
+Toutes les requêtes graphQL sont écrites au format json avec des sauts de ligne et des accolades.
+Prenons un exemple et utilisons une application Web qui a 2 fonctionnalités
+1) Liste des utilisateurs
+2) Ajouter des utilisateurs
+Nous utiliserons ensuite une requête d'introspection pour trouver des bogues dans l'application, 
+c'est quelque chose que l'on trouve couramment dans les applications Web.
 
 ![image10.png](https://user-images.githubusercontent.com/38256925/101090166-82389b80-35b6-11eb-8269-0f01271912b4.png)
 
+L'image ci-dessus est ce que vous verriez normalement maintenant pour améliorer cela, 
+vous pouvez utiliser un plugin burp comme JSON Beautifier ou mieux encore un plus spécifique pour GraphQL connu sous le nom de GraphQL Raider. 
+Après l'avoir installé, vous aurez un onglet comme JSON beautifer où que ce soit GraphQL
 
 ![image11.png](https://user-images.githubusercontent.com/38256925/101090169-84025f00-35b6-11eb-80f3-bad4566e889f.png)
 
+Maintenant, ce qui précède peut être vu d'une bien meilleure manière
 
 ![image12.png](https://user-images.githubusercontent.com/38256925/101090189-89f84000-35b6-11eb-9c22-7edb0459543c.png)
+
+À partir des images, vous devriez être en mesure de comprendre facilement la structure de la requête graphQL
 
 
 ![image13.png](https://user-images.githubusercontent.com/38256925/101090194-8c5a9a00-35b6-11eb-9b32-cd9570c8f2bc.png)
